@@ -1,0 +1,9 @@
+package Stepsdef;
+
+public class JSONObject {
+    public void put(String roomid, int i) {
+    }
+
+    public void remove(String field) {
+    }
+}

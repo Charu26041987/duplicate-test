@@ -1,0 +1,157 @@
+package Stepsdef;
+
+import Variable.Build_Payload;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import org.json.JSONObject;
+
+
+public class Login {
+
+    private Response response;
+    private String payload;
+    JSONObject bookingPayload;
+
+    @Given("I set the booking")
+    public void I_set_the_booking() {
+
+         bookingPayload = new Build_Payload()
+                .withBookingid(6)
+                .withRoomid(1)
+                .withFirstname("James")
+                .withLastname("Dean")
+                .withDepositPaid(true)
+                .withEmail("test@gemail.com")
+                .withPhone("07123456789")
+                .withCheckin("2025-07-10")
+                .withCheckout("2025-07-15")
+                .build();
+
+
+    }
+
+    @When("I send a POST request to create booking")
+    public void post_request() {
+
+            response = RestAssured.given()
+                    .accept ("*/*")
+                    .contentType("application/json")
+                    .body(bookingPayload.toString())
+                   .when()
+                    .post("https://automationintesting.online/booking/");
+        }
+
+
+    @Then("I should receive a {int} status code")
+    public void status_code(int statusCode) {
+        if (response != null) {
+            System.out.println("Status Code: " + response.getStatusCode());
+            response.then().assertThat().statusCode(statusCode);
+        } else {
+            throw new AssertionError("Response is null. Something went wrong with the request.");
+        }
+    }
+
+    @Given("I set a booking payload missing the {string}")
+    public void i_set_a_booking_payload_missing_field(String missingField) {
+         bookingPayload = new Build_Payload()
+                .withBookingid(24)
+                .withRoomid(2)
+                .withLastname("Dean")
+                .withDepositPaid(true)
+                .withEmail("test@email.com")
+                .withPhone("07123456789")
+                .withCheckin("2025-07-10")
+                .withCheckout("2025-07-15")
+                .build();
+
+        bookingPayload.remove(missingField);
+    }
+
+
+    @Given("I set a booking payload with {string} as {string}")
+        public void payloadWithFieldAsValue(String field, String value) {
+        bookingPayload = new Build_Payload()
+                .withBookingid(25)
+                .withRoomid(3)
+                .withFirstname("Li")
+//                .withLastname("Dean")
+                .withDepositPaid(true)
+                .withEmail("test@email.com")
+                .withPhone("07123456789")
+                .withCheckin("2025-07-10")
+                .withCheckout("2025-07-15")
+                .build();
+
+        }
+
+        @Given("I set a booking payload with invalid date {string}")
+        public void payloadWithInvalidCheckinDate(String badDate) {
+            bookingPayload = new Build_Payload()
+                    .withBookingid(28)
+                    .withRoomid(6)
+                    .withFirstname("Li")
+                    .withLastname("Dean")
+                    .withDepositPaid(true)
+                    .withEmail("test@email.com")
+                    .withPhone("07123456789")
+                    .withCheckin("2025-02-29")
+                    .withCheckout("2025-07-15")
+                    .build();
+
+        }
+
+        @Given("I set a booking payload with checkout earlier than checkin")
+        public void payloadWithInvalidCheckoutLogic() {
+            bookingPayload = new Build_Payload()
+                    .withBookingid(20)
+                    .withRoomid(9)
+                    .withFirstname("Li")
+                .withLastname("Dean")
+                    .withDepositPaid(true)
+                    .withEmail("test@email.com")
+                    .withPhone("07123456789")
+                    .withCheckin("2025-07-20")
+                    .withCheckout("2025-07-15")
+                    .build();
+
+        }
+
+
+        @Given("I set a booking payload with no bookingdates")
+        public void payloadWithoutBookingDates() {
+            bookingPayload = new Build_Payload()
+                    .withBookingid(32)
+                    .withRoomid(98)
+                    .withFirstname("Li")
+                    .withLastname("Dean")
+                    .withDepositPaid(true)
+                    .withEmail("test@email.com")
+                    .withPhone("07123456789")
+//                    .withCheckin("2025-07-10")
+//                    .withCheckout("2025-07-15")
+                    .build();
+
+
+        }
+
+        @Given("I set a booking payload with invalid email {string}")
+        public void payloadWithInvalidEmail(String invalidEmail) {
+            bookingPayload = new Build_Payload()
+                    .withBookingid(35)
+                    .withRoomid(11)
+                    .withFirstname("Li")
+                .withLastname("Dean")
+                    .withDepositPaid(true)
+                    .withEmail("testcom")
+                    .withPhone("07123456789")
+                    .withCheckin("2025-07-10")
+                    .withCheckout("2025-07-15")
+                    .build();
+
+        }
+
+    }
