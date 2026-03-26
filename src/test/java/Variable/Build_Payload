@@ -1,0 +1,65 @@
+package Variable;
+
+import org.json.JSONObject;
+
+
+public class Build_Payload {
+
+    private final JSONObject booking;
+    private final JSONObject bookingDates;
+
+    public Build_Payload() {
+        booking = new JSONObject();
+        bookingDates = new JSONObject();
+    }
+
+    public Build_Payload withBookingid(int bookingid) {
+        booking.put("bookingid", bookingid);
+        return this;
+    }
+
+    public Build_Payload withRoomid(int roomid) {
+        booking.put("roomid", roomid);
+        return this;
+    }
+
+    public Build_Payload withFirstname(String firstname) {
+        booking.put("firstname", firstname);
+        return this;
+    }
+
+    public Build_Payload withLastname(String lastname) {
+        booking.put("lastname", lastname);
+        return this;
+    }
+
+    public Build_Payload withDepositPaid(boolean depositPaid) {
+        booking.put("depositpaid", depositPaid);
+        return this;
+    }
+
+    public Build_Payload withEmail(String email) {
+        booking.put("email", email);
+        return this;
+    }
+
+    public Build_Payload withPhone(String phone) {
+        booking.put("phone", phone);
+        return this;
+    }
+
+    public Build_Payload withCheckin(String checkin) {
+        bookingDates.put("checkin", checkin);
+        return this;
+    }
+
+    public Build_Payload withCheckout(String checkout) {
+        bookingDates.put("checkout", checkout);
+        return this;
+    }
+
+    public JSONObject build() {
+        booking.put("bookingdates", bookingDates);
+        return booking;
+    }
+}
