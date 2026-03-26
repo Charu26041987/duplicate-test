@@ -1,0 +1,68 @@
+package Stepsdef;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import io.restassured.response.Response;
+import org.json.JSONObject;
+
+import static io.restassured.RestAssured.baseURI;
+import static io.restassured.RestAssured.given;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+
+public class Retrivebook {
+    private Response response;
+    String payload;
+
+
+    @Given("the booking API is available")
+    public void bookingAvailable() {
+        baseURI = "https://automationintesting.online/booking/";
+    }
+
+    @When("I send a GET request to retrieve all bookings")
+    public void GetRequest() {
+        response = given()
+                .baseUri("https://automationintesting.online/booking/")
+                .header("Accept", "application/json")
+                .get("/booking");
+    }
+
+    @Then("I should receive Response")
+    public void validate() {
+        assertEquals(200, response.getStatusCode());
+    }
+
+    @Then("the response should contain a list of bookings")
+    public void BookingsList() {
+        assertTrue("Response should contain bookings",
+                response.jsonPath().getList("bookings").size() > 0);
+    }
+
+
+    @Then("the response should contain the error message {string}")
+    public void validateErrorMessage(String expectedMessage) {
+        String responseBody = response.getBody().asString();
+        assertTrue("Expected error message not found",
+                responseBody.contains(expectedMessage));
+    }
+
+
+    @Given("I set a booking payload with phone number {string}")
+    public void bookingPayloadWithPhoneNumber(String phoneNumber) {
+        JSONObject booking = new JSONObject();
+        booking.put("roomid", 1);
+        booking.put("firstname", "James");
+        booking.put("lastname", "Dean");
+        booking.put("depositpaid", true);
+        booking.put("email", "test@email.com");
+        booking.put("phone", phoneNumber);
+
+        JSONObject dates = new JSONObject();
+        dates.put("checkin", "2025-08-01");
+        dates.put("checkout", "2025-08-05");
+        booking.put("bookingdates", dates);
+        payload = booking.toString();
+    }
+}
