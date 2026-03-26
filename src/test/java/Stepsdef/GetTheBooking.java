@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
-public class Retrivebook {
+public class GetTheBooking {
     private Response response;
     String payload;
 

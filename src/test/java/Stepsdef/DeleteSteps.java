@@ -4,7 +4,7 @@ import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.*;
 import static org.junit.Assert.*;
-public class Delete_booking {
+public class DeleteSteps {
 
         private String token;
         private Response response;

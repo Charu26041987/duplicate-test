@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import static io.restassured.RestAssured.*;
 import static org.junit.Assert.*;
-public class Update_booking {
+public class ModifyBooking {
 
         private String token;
         private Response response;

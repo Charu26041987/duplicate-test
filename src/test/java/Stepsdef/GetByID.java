@@ -7,7 +7,7 @@ import static io.restassured.RestAssured.*;
 import static org.junit.Assert.*;
 
 
-public class Retrive_ID {
+public class GetByID {
         private Response response;
 
 

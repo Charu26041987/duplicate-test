@@ -9,7 +9,7 @@ import io.restassured.response.Response;
 import org.json.JSONObject;
 
 
-public class Login {
+public class LoginSteps {
 
     private Response response;
     private String payload;
